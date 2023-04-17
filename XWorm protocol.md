@@ -62,6 +62,15 @@ Some other interesting packets are:
 - `txtttt;Client ID;file contents;file name` - response to a text file editing request. I didn't try it out yet, but sending it without asking can probably pop up an editor window with arbitrary text.
 
 Fun fact: adding a file or folder named `FileManagerSplit` to any directory and then navigating there seems to partially break the file manager. A file/folder named `<Xwormmm>` would probably do the same thing.
+
+### Webcam
+
+The webcam plugin is pretty simple. Handshake is done via a packet that looks like `WBCM;List of webcams;Client ID`. `List of webcams` is a `|`-separated list of webcam names. The handshake will cause a window to pop up by good XWorm habits.
+
+Images are then sent with the following packet: `Cam;gzipped JPG file;Client ID`. As always, the client ID actually has to exist. In order to play a video, you have to time sending the packets correctly. Also note that if a client does not respond to a PING for an extended time, the server actually disconnects it. Example of webcam-trolling:
+
+![Screenshot_20230417_182015](https://user-images.githubusercontent.com/87039059/232548687-8bf84891-6c86-4a2c-81ac-ea42438e7cd8.png)
+
 ## Miscallenous interesting packets
 - `Msg;message` - displays a log message in the Log tab of the main RAT window
 
