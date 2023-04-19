@@ -46,10 +46,18 @@ def str_to_arg(s: str):
     return s.encode('utf-8')
 
 
+def parse_packet_line(l: str) -> list[AbstractPacket]:
+    if l.startswith('@INCLUDE '):
+        with open(l[9:], 'r') as f:
+            return read_packet_file(f)
+    return [Packet(*map(str_to_arg, l.split(';')))]
+
+
 def read_packet_file(stream):
     packets = []
     for l in stream:
-        if l.startswith()
+        packets += parse_packet_line(l)
+    return packets        
 
 
 def compress(data):
