@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 import io
 
 from Cryptodome.Cipher import AES
-from Cryptodome.Util.Padding import pad
+from Cryptodome.Util.Padding import pad, unpad
 import hashlib
 import importlib
 
@@ -54,6 +54,12 @@ def write_all_to_stream(packets: list[AbstractPacket], key: bytes, into: io.RawI
         into.write(encrypted)
 
 
+def decrypt(data: bytes, key: bytes) -> bytes:
+    key = hashlib.md5(key).digest()
+    crypto = AES.new(key, AES.MODE_ECB)
+    return unpad(crypto.decrypt(data), 16)
+
+
 def str_to_arg(s: str):
     if s.startswith('gz:'):
         with open(s[3:], 'rb') as f:
@@ -65,7 +71,7 @@ def str_to_arg(s: str):
 
 
 def parse_packet_line(l: str) -> list[AbstractPacket]:
-    if l[0] == '#' or l.strip() == '':
+    if l.strip() == '' or l.startswith('##'):
         return []
     l = l.strip('\n')
     embedded_python_env = {
@@ -89,7 +95,7 @@ def read_packet_file(stream):
     for l in stream:
         packets += parse_packet_line(l)
     log('>>', packets)
-    return packets        
+    return packets
 
 
 def compress(data):

