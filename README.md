@@ -14,3 +14,7 @@ You can use this tool to quickly craft XWorm packets.
 Otherwise, a semicolon-separated packet is created. In the fields, gzipped files can be included like `gz:somefile.txt`.
 
 See example.pck for an example.
+
+# See also
+
+[wizardy0ga/Wormicide](https://github.com/wizardy0ga/Wormicide) is an automatized denial-of-service attack against XWorm servers based on this repository and additional research by wizardy0ga.
